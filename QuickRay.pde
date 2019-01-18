@@ -19,15 +19,23 @@ void setup() {
   //world.objects.add(new Sphere(new Vec3(-2, 2, 5), 1)); world.objects.get(1).objColor = new Vec3(1, 1, 1);
   //world.objects.add(new Sphere(new Vec3(3, 3, 6), 1)); world.objects.get(2).objColor = new Vec3(1, 1, 1);
   
-  for(int i = 0; i < 30; i++) {
+  for(int i = 0; i < 10; i++) {
     world.objects.add(new Sphere(new Vec3(random(10) - 5, random(10) - 5, random(5) + 4), 1)); 
   }
   
-  world.lights.add(new Light(new Vec3(3, -3, 0), new Vec3(1, 0, 0), 0.1));
-  world.lights.add(new Light(new Vec3(-3, 3, 0), new Vec3(0, 1, 0), 0.1));
-  world.lights.add(new Light(new Vec3(-3, 3, 3), new Vec3(0, 0, 1), 0.1));
+  world.lights.add(new PointLight(new Vec3(3, -3, 3), new Vec3(1, 0, 0), 0.1));
+  world.lights.add(new PointLight(new Vec3(-3, 3, 3), new Vec3(0, 1, 0), 0.1));
+  world.lights.add(new PointLight(new Vec3(-3, 3, 3), new Vec3(0, 0, 1), 0.1));
   
 }
+
+//boolean play = true;
+
+//void keyPressed() {
+//  play = !play;
+//  if (play) loop();
+//  else noLoop();
+//}
 
 void draw() {
   

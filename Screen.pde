@@ -1,9 +1,9 @@
+// Buffer of pixels which can be easily resized and rendered
 class Screen {
   
   private int size;
   private float spacing;
   private Vec3 pixbuf[][];
-  private float depthbuf[][];
 
   // Constructors
   public Screen() {

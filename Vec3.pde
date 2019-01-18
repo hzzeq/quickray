@@ -1,3 +1,4 @@
+// 3-component vector
 class Vec3 {
   
   public float x, y, z;

@@ -17,26 +17,7 @@ class Renderable {
   
 }
 
-// Used in lighting calculations in the scene
-class Light extends Renderable {
-  
-  public Vec3 lightColor;
-  public float attenuation;
-  
-  public Light() {
-    this(new Vec3(0, 0, 0), new Vec3(1, 1, 1), 0.1);
-  }
-  
-  public Light(Vec3 position, Vec3 lightColor, float attenuation) {
-    super(position, false);
-    this.lightColor = lightColor;
-    this.objColor = lightColor;
-    this.attenuation = attenuation;
-  }
-  
-}
-
-// Sphere that can be rendered to the screen
+// Perfect sphere
 class Sphere extends Renderable {
 
   public float radius;
@@ -53,7 +34,7 @@ class Sphere extends Renderable {
   
 }
 
-// Infinite plane that can be rendered to the screen
+// Infinite plane
 class Plane extends Renderable {
   
   public Vec3 direction;

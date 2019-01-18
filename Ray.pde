@@ -1,3 +1,4 @@
+// A ray with a position and direction, used for the main tracing algorithm
 class Ray {
   
   public Vec3 position;
@@ -74,7 +75,7 @@ public Vec3 trace(Scene scene, Ray r) {
       
       Vec3 lighting = new Vec3(0, 0, 0);
       
-      for (Light l : scene.lights) {
+      for (PointLight l : scene.lights) {
         Vec3 lightdir = vsub(l.position, hitpoint).normalize(); // vector from point to light source
         
         // Cast shadow ray

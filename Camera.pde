@@ -1,3 +1,4 @@
+// The point of view of the window, manages rendering to the screen
 class Camera {
   
   public Screen output;
@@ -25,7 +26,7 @@ class Camera {
         this.output.setPix(x, y, trace(scene, r));
         
         // Temporary
-        for (Light obj : scene.lights) {
+        for (PointLight obj : scene.lights) {
           Hit h = r.intersect(new Sphere(obj.position, 0.01));
           if (h.hit) this.output.setPix(x, y, obj.lightColor);
         }
