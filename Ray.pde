@@ -79,9 +79,9 @@ public Vec3 trace(Scene scene, Ray r) {
         Vec3 lightdir = vsub(l.position, hitpoint).normalize(); // vector from point to light source
         
         // Cast shadow ray
-        Ray shadowRay = new Ray(hitpoint, lightdir);
+        //Ray shadowRay = new Ray(vadd(hitpoint, vmult(normal, 10e-4)), lightdir);
         // If the path between this point and the light is blocked, we skip the lighting
-        if (hitTest(scene, shadowRay)) continue;
+        //if (hitTest(scene, shadowRay)) continue;
         // This results in hard shadows, soft shadows are a later problem
         
         // Calculate diffuse lighting factor
@@ -90,15 +90,22 @@ public Vec3 trace(Scene scene, Ray r) {
         
         // Calculate attenuation (light fallof at a distance)
         // 1 / (1 + k(l - p)^2)
-        double attenuation = 1.0 / (1.0 + l.attenuation * pow(vdist(l.position, hitpoint), 2));
+        //double attenuation = 1.0 / (1.0 + l.attenuation * pow(vdist(l.position, hitpoint), 2));
         
         // Combine all light factors into one
-        Vec3 overall = vmult(vmult(diffuse, attenuation), obj.objColor);
+        Vec3 overall = vmult(diffuse, diffuse);
         
         lighting = vadd(lighting, overall);
       }
       
-      pixel = lighting;
+      // Calculating distance fog
+      float visibility = (float) Math.exp(-Math.pow((h.distance * 0.04), 2.0));
+      visibility = constrain(visibility, 0.0, 1.0);
+      
+      lighting = vmix(lighting, new Vec3(0.0, 0.0, 0.0), visibility);
+    
+      // Set the final pixel color
+      pixel = vmult(lighting, obj.objColor);
       
     }
     
