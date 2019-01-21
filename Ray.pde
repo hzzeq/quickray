@@ -31,8 +31,19 @@ class Ray {
     float thc = (float) sqrt(pow(s.radius, 2) - pow(d, 2));
     
     float enter = tca - thc;
-    //float exit = tca + thc;
+    float exit = tca + thc;
     
+    if (enter > exit) {
+      float temp = exit;
+      exit = enter;
+      enter = temp;
+    }
+    
+    //if (enter < 0) {
+    //  enter = exit; // if t0 is negative, let's use t1 instead
+    //  if (exit < 0) return new Hit(false, -1); // both t0 and t1 are negative
+    //}
+        
     return new Hit(true, enter);
         
   }
@@ -90,10 +101,10 @@ public Vec3 trace(Scene scene, Ray r) {
         
         // Calculate attenuation (light fallof at a distance)
         // 1 / (1 + k(l - p)^2)
-        //double attenuation = 1.0 / (1.0 + l.attenuation * pow(vdist(l.position, hitpoint), 2));
+        double attenuation = 1.0 / (1.0 + l.attenuation * pow(vdist(l.position, hitpoint), 2));
         
         // Combine all light factors into one
-        Vec3 overall = vmult(diffuse, diffuse);
+        Vec3 overall = vmult(diffuse, attenuation);
         
         lighting = vadd(lighting, overall);
       }
