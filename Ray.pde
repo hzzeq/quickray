@@ -28,7 +28,7 @@ class Ray {
     
     if (d > s.radius) return new Hit(false, -1);
     
-    float thc = (float) sqrt(pow(s.radius, 2) - pow(d, 2));
+    float thc = (float) sqrt(s.radius - d);
     
     float enter = tca - thc;
     float exit = tca + thc;
@@ -90,9 +90,9 @@ public Vec3 trace(Scene scene, Ray r) {
         Vec3 lightdir = vsub(l.position, hitpoint).normalize(); // vector from point to light source
         
         // Cast shadow ray
-        //Ray shadowRay = new Ray(vadd(hitpoint, vmult(normal, 10e-4)), lightdir);
+        Ray shadowRay = new Ray(vadd(hitpoint, vmult(normal, 1e-4)), lightdir);
         // If the path between this point and the light is blocked, we skip the lighting
-        //if (hitTest(scene, shadowRay)) continue;  
+        if (hitTest(scene, shadowRay)) continue;
         // This results in hard shadows, soft shadows are a later problem
         
         // Calculate diffuse lighting factor
