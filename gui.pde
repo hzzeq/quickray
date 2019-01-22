@@ -39,7 +39,7 @@ public void object_list_change(GTextArea source, GEvent event) { //_CODE_:object
 } //_CODE_:object_list:455220:
 
 public void button_open_click(GButton source, GEvent event) { //_CODE_:button_open:379595:
-  println("button_open - GButton >> GEvent." + event + " @ " + millis());
+  
 } //_CODE_:button_open:379595:
 
 
