@@ -71,7 +71,7 @@ class Hit {
 public Vec3 trace(Scene scene, Ray r) {
   
   float nearest = Float.MAX_VALUE;
-  Vec3 pixel = null;
+  Vec3 pixel = new Vec3(0, 0, 0);
 
   for (Sphere obj : scene.objects) {
     
@@ -92,7 +92,7 @@ public Vec3 trace(Scene scene, Ray r) {
         // Cast shadow ray
         //Ray shadowRay = new Ray(vadd(hitpoint, vmult(normal, 10e-4)), lightdir);
         // If the path between this point and the light is blocked, we skip the lighting
-        //if (hitTest(scene, shadowRay)) continue;
+        //if (hitTest(scene, shadowRay)) continue;  
         // This results in hard shadows, soft shadows are a later problem
         
         // Calculate diffuse lighting factor
@@ -126,12 +126,14 @@ public Vec3 trace(Scene scene, Ray r) {
   
 }
 
-// Simplified version of trace() that returns whether the ray intersected
+// Simplified version of trace() that returns the distance where ray intersected
 // anything rather than calculating the color of the point that is hit
 public boolean hitTest(Scene scene, Ray r) {
   
-  for (Sphere obj : scene.objects)
-    if(r.intersect(obj).hit) return true;
+  for (Sphere obj : scene.objects) {
+    Hit h = r.intersect(obj);
+    if (h.hit) return true;
+  }
     
   return false;
   

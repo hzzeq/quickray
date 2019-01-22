@@ -1,47 +1,43 @@
 // The point of view of the window, manages rendering to the screen
 class Camera {
   
-  public Screen output;
   public Vec3 position;
   public float far;
   
-  public Camera(Screen output, Vec3 position, float far) {
-    this.output = output;
+  public Camera(Vec3 position, float far) {
     this.position = position;
     this.far = far; // 1 / tan(2 * fov);
   }
-  
-  public void render(Scene scene) {
+
+  public PImage renderImage(Scene scene, int imageWidth, int imageHeight) {
     
-    for (int x = 0; x < this.output.size; x++) {
-      for (int y = 0; y < this.output.size; y++) {
+    PImage output = createImage(imageWidth, imageHeight, RGB);
+    
+    for (int x = 0; x < output.width; x++) {
+      for (int y = 0; y < output.height; y++) {
         
-        this.output.setPix(x, y, new Vec3(0, 0, 0));
+        output.set(x, y, new Vec3(0, 0, 0).toPColor());
         
-        Vec3 world = this.gridToWorld(x, y);
+        Vec3 world = this.gridToWorld(x, y, imageWidth, imageHeight);
         
         Vec3 direction = new Vec3(this.position.x + world.x, this.position.y + world.y, world.z);
         Ray r = new Ray(this.position, direction.normalize());
         
-        this.output.setPix(x, y, trace(scene, r));
-        
-        // Temporary
-        for (PointLight obj : scene.lights) {
-          Hit h = r.intersect(new Sphere(obj.position, 0.01));
-          if (h.hit) this.output.setPix(x, y, obj.lightColor);
-        }
+        output.set(x, y, trace(scene, r).toPColor());
         
       }
     }
     
+    return output;
+    
   }
   
-  private Vec3 gridToWorld(int x, int y) {
+  private Vec3 gridToWorld(int x, int y, int imageWidth, int imageHeight) {
     
     // We add the 0.5 offset so the ray is sent through the
     // middle of the pixel rather than the top corner
-    float nx = (x + 0.5) / this.output.size;
-    float ny = (y + 0.5) / this.output.size;
+    float nx = (x + 0.5) / imageWidth;
+    float ny = (y + 0.5) / imageHeight;
     
     // Converting to coordinates in the "world"
     float wx = (2 * nx) - 1;
